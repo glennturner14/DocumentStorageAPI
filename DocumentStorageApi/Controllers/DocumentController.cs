@@ -127,5 +127,31 @@ namespace DocumentStorageApi.Controllers
                 throw;
             }
         }
+
+        #region
+        public void SendDocument(string clientName, string fileName, DocumentStorage source, DocumentStorage destination) {
+
+            //Ensure temp storage folder is present
+            string tempFolder = @"C:\Temp\DocumentStorage";
+            if (!Directory.Exists(tempFolder))
+                Directory.CreateDirectory(tempFolder);
+
+            //Set source
+            SelectStorage(source);
+            SetStoragePath(Path.Combine(@"/", clientName));
+
+            //Set the temp folder a
+            SetFilePath(tempFolder);
+
+            //Download the selected file
+            //Download("Get Started with Dropbox.pdf");
+            Download(fileName);
+
+            //Set the destination ajnd upload the file
+            SelectStorage(destination);
+            Upload(Path.Combine(@"/", fileName));
+        }
+        #endregion
+
     }
 }
